@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 $judul = 'Beranda';
 require __DIR__ . '/../src/View/header.php';
 ?>
@@ -9,4 +11,4 @@ require __DIR__ . '/../src/View/header.php';
 <p>Penjualan Minyak Karo Sembiring, Minyak Tambar Malem, dan Minyak Kuda.</p>
 <p>Berjalan di PHP <?= htmlspecialchars(PHP_VERSION) ?></p>
 
-<?php require __DIR__ . '/../src/View/footer.php'; ?>`
+<?php require __DIR__ . '/../src/View/footer.php'; ?>
