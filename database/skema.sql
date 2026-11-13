@@ -56,35 +56,3 @@ CREATE TABLE stok (
         REFERENCES produk (id_produk),
     CONSTRAINT chk_stok CHECK (jumlah_stok >= 0)
 );
-
--- ==========================================================
--- 2. DML (DATA DUMMY AWAL UMKM DSM)
--- ==========================================================
-
-INSERT INTO produk (id_produk, tanggal_input, nama_produk, harga) VALUES
-('MS',  '2026-10-01', 'Minyak Karo Sembiring', 35000.00),
-('MTM', '2026-10-01', 'Minyak Tambar Malem',   40000.00),
-('MK',  '2026-10-01', 'Minyak Kuda',           50000.00);
-
--- Catatan: MTM diset stok 8 (< 10) untuk menguji fitur alert stok menipis di Dashboard
-INSERT INTO stok (id_stok, id_produk, jumlah_stok, tanggal_update) VALUES
-('S001', 'MS',  25, '2026-11-10'),
-('S002', 'MTM',  8, '2026-11-10'),
-('S003', 'MK',  15, '2026-11-10');
-
-INSERT INTO pelanggan (nama_pelanggan, no_telepon, alamat) VALUES
-('Budi Santoso', '081234567890', 'Jl. Jamin Ginting No. 12, Medan'),
-('Siti Aminah',  '082198765432', 'Jl. Setia Budi No. 45, Medan'),
-('Andi Pratama', '085211223344', 'Jl. Iskandar Muda No. 8, Binjai');
-
-INSERT INTO transaksi (id_transaksi, tanggal_transaksi, nama_pelanggan, total_transaksi, metode_penjualan) VALUES
-('T001', '2026-11-01', 'Budi Santoso', 110000.00, 'Offline'),
-('T002', '2026-11-05', 'Siti Aminah',  100000.00, 'WhatsApp'),
-('T003', '2026-11-10', 'Andi Pratama', 115000.00, 'Shopee');
-
-INSERT INTO detail_transaksi (id_transaksi, id_produk, jumlah, subtotal) VALUES
-('T001', 'MS',  2,  70000.00),
-('T001', 'MTM', 1,  40000.00),
-('T002', 'MK',  2, 100000.00),
-('T003', 'MS',  1,  35000.00),
-('T003', 'MTM', 2,  80000.00);
