@@ -27,8 +27,8 @@ declare(strict_types=1);
 // require_once __DIR__ . '/Entity/Transaksi.php';
 
 // ===== Validation (Pay) =====
-// require_once __DIR__ . '/Validation/Input.php';
-// require_once __DIR__ . '/Validation/Validator.php';
+require_once __DIR__ . '/Entity/Validatable.php';
+require_once __DIR__ . '/Entity/BaseEntity.php';
 
 // ===== Repository (Niph) =====
 // require_once __DIR__ . '/Repository/ProdukRepositoryInterface.php';
