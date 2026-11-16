@@ -35,5 +35,5 @@ require_once __DIR__ . '/Entity/BaseEntity.php';
 // require_once __DIR__ . '/Repository/PelangganRepositoryInterface.php';
 // require_once __DIR__ . '/Repository/TransaksiRepositoryInterface.php';
 // require_once __DIR__ . '/Repository/ProdukRepository.php';
-// require_once __DIR__ . '/Repository/PelangganRepository.php';
+require_once __DIR__ . '/Entity/Pelanggan.php';
 // require_once __DIR__ . '/Repository/TransaksiRepository.php';
