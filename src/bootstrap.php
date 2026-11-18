@@ -17,16 +17,18 @@ require_once __DIR__ . '/Exception/StokTidakCukupException.php';
 require_once __DIR__ . '/Core/Database.php';
 require_once __DIR__ . '/Core/QueryBuilder.php';
 
-// ===== Entity (Pay): interface dan abstract dulu =====
+// ===== Validation (Pay) =====
 require_once __DIR__ . '/Entity/Validatable.php';
 require_once __DIR__ . '/Entity/BaseEntity.php';
+
+// ===== Entity (Pay) =====
 require_once __DIR__ . '/Entity/Pelanggan.php';
 require_once __DIR__ . '/Entity/Produk.php';
 // require_once __DIR__ . '/Entity/Stok.php';
 // require_once __DIR__ . '/Entity/DetailTransaksi.php';
 // require_once __DIR__ . '/Entity/Transaksi.php';
 
-// ===== Validation (Pay) =====
+// ===== Validation =====
 // require_once __DIR__ . '/Validation/Input.php';
 // require_once __DIR__ . '/Validation/Validator.php';
 
