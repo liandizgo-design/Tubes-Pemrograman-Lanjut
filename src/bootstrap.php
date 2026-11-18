@@ -18,8 +18,8 @@ require_once __DIR__ . '/Core/Database.php';
 require_once __DIR__ . '/Core/QueryBuilder.php';
 
 // ===== Entity (Pay): interface dan abstract dulu =====
-// require_once __DIR__ . '/Entity/Validatable.php';
-// require_once __DIR__ . '/Entity/BaseEntity.php';
+require_once __DIR__ . '/Entity/Validatable.php';
+require_once __DIR__ . '/Entity/BaseEntity.php';
 require_once __DIR__ . '/Entity/Pelanggan.php';
 require_once __DIR__ . '/Entity/Produk.php';
 // require_once __DIR__ . '/Entity/Stok.php';
