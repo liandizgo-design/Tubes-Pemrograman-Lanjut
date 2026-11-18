@@ -38,4 +38,47 @@ class Database
     {
         return $this->connection;
     }
+        public function beginTransaction(): void
+    {
+        try {
+            $this->connection->beginTransaction();
+        } catch (PDOException $exception) {
+            error_log('Gagal memulai transaksi: ' . $exception->getMessage());
+            throw new DatabaseException('Transaksi belum bisa dimulai. Silakan coba lagi.');
+        }
+    }
+        public function commit(): void
+    {
+        try {
+            $this->connection->commit();
+        } catch (PDOException $exception) {
+            error_log('Gagal commit: ' . $exception->getMessage());
+            throw new DatabaseException('Transaksi belum bisa disimpan. Silakan coba lagi.');
+        }
+    }
+        public function rollBack(): void
+    {
+        try {
+            if ($this->connection->inTransaction()) {
+                $this->connection->rollBack();
+            }
+        } catch (PDOException $exception) {
+            error_log('Gagal rollback: ' . $exception->getMessage());
+            throw new DatabaseException('Transaksi belum bisa dibatalkan. Silakan coba lagi.');
+        }
+    }
+        public function jalankanTransaksi(callable $aksi): mixed
+    {
+        $this->beginTransaction();
+
+        try {
+            $hasil = $aksi();
+            $this->commit();
+
+            return $hasil;
+        } catch (Throwable $exception) {
+            $this->rollBack();
+            throw $exception;
+        }
+    }
 }

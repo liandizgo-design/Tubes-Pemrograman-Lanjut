@@ -22,7 +22,7 @@ class QueryBuilder
     private array $conditions = [];
     private array $ordering = [];
     private ?int $rowLimit = null;
-
+    private bool $lockForUpdate = false;
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -100,6 +100,17 @@ class QueryBuilder
 
         return $this;
     }
+     public function forUpdate(): self
+    {
+        if (!$this->pdo->inTransaction()) {
+            throw new ValidationException('forUpdate hanya boleh dipakai di dalam transaksi.');
+        }
+
+        $this->lockForUpdate = true; 
+
+        return $this;
+    }
+
     public function get(): array
     {
         return $this->executeSelect(false)->fetchAll();
@@ -308,6 +319,7 @@ class QueryBuilder
         $this->conditions = [];
         $this->ordering = [];
         $this->rowLimit = null;
+        $this->lockForUpdate = false;
     }
 
         private function executeSelect(bool $firstOnly): PDOStatement
@@ -339,6 +351,14 @@ class QueryBuilder
                 $sql .= ' LIMIT ' . $limit;
             }
 
+            if ($this->lockForUpdate) {
+                if (!$this->pdo->inTransaction()) {
+                    throw new ValidationException('forUpdate hanya boleh dipakai di dalam transaksi.');
+                }
+
+                $sql .= ' FOR UPDATE';
+            }
+            
             $statement = $this->pdo->prepare($sql);
             $statement->execute($params);
 
