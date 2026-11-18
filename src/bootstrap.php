@@ -24,8 +24,8 @@ require_once __DIR__ . '/Entity/BaseEntity.php';
 // ===== Entity (Pay) =====
 require_once __DIR__ . '/Entity/Pelanggan.php';
 require_once __DIR__ . '/Entity/Produk.php';
-// require_once __DIR__ . '/Entity/Stok.php';
-// require_once __DIR__ . '/Entity/DetailTransaksi.php';
+require_once __DIR__ . '/Entity/Stok.php';
+require_once __DIR__ . '/Entity/DetailTransaksi.php';
 // require_once __DIR__ . '/Entity/Transaksi.php';
 
 // ===== Validation =====
