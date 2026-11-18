@@ -39,3 +39,16 @@ body {
     color: #666;
     font-size: 0.85rem;
 }
+
+.form { background: #fff; padding: 16px; border-radius: 6px; margin-bottom: 24px; }
+.form label { display: block; margin-top: 10px; font-weight: bold; }
+.form input { width: 100%; padding: 8px; margin-top: 4px; }
+.form button { margin-top: 14px; padding: 8px 16px; background: #2c3e50; color: #fff; border: 0; border-radius: 4px; cursor: pointer; }
+
+.tabel { width: 100%; border-collapse: collapse; background: #fff; }
+.tabel th, .tabel td { padding: 8px 10px; border-bottom: 1px solid #ddd; text-align: left; }
+.tabel th { background: #ecf0f1; }
+
+.alert { padding: 10px 12px; border-radius: 4px; }
+.alert-ok { background: #d4edda; color: #155724; }
+.alert-error { background: #f8d7da; color: #721c24; }
