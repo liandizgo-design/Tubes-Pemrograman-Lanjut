@@ -241,7 +241,37 @@ class QueryBuilder
             $this->reset();
         }
     }
-    
+        public function getRiwayatTransaksi(?string $idTransaksi = null): array
+    {
+        try {
+            $sql = 'SELECT t.id_transaksi, t.tanggal_transaksi, t.nama_pelanggan,'
+                . ' t.metode_penjualan, t.total_transaksi,'
+                . ' d.id_produk, p.nama_produk, d.jumlah, d.subtotal'
+                . ' FROM transaksi AS t'
+                . ' INNER JOIN detail_transaksi AS d ON d.id_transaksi = t.id_transaksi'
+                . ' INNER JOIN produk AS p ON p.id_produk = d.id_produk';
+
+            $params = [];
+
+            if ($idTransaksi !== null) {
+                $sql .= ' WHERE t.id_transaksi = ?';
+                $params[] = $idTransaksi;
+            }
+
+            $sql .= ' ORDER BY t.tanggal_transaksi DESC, t.id_transaksi DESC, d.id_produk ASC';
+
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute($params);
+
+            return $statement->fetchAll();
+        } catch (PDOException $exception) {
+            error_log('Gagal membaca riwayat transaksi: ' . $exception->getMessage());
+            throw new DatabaseException('Riwayat transaksi belum bisa dimuat. Silakan coba lagi.');
+        } finally {
+            $this->reset();
+        }
+    }
+
     private function getAllowedColumns(): array
     {
         if ($this->table === null) {
