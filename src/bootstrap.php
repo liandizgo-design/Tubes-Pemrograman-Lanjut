@@ -28,8 +28,8 @@ require_once __DIR__ . '/Entity/Stok.php';
 require_once __DIR__ . '/Entity/DetailTransaksi.php';
 require_once __DIR__ . '/Entity/Transaksi.php';
 
-// ===== Validation =====
-// require_once __DIR__ . '/Validation/Input.php';
+// ===== Validation (Pay) =====
+require_once __DIR__ . '/Validation/Input.php';
 // require_once __DIR__ . '/Validation/Validator.php';
 
 // ===== Repository (Niph) =====
