@@ -14,7 +14,7 @@ require_once __DIR__ . '/Exception/ValidationException.php';
 require_once __DIR__ . '/Exception/StokTidakCukupException.php';
 
 // ===== Core (Eplin) =====
-// require_once __DIR__ . '/Core/Database.php';
+require_once __DIR__ . '/Core/Database.php';
 // require_once __DIR__ . '/Core/QueryBuilder.php';
 
 // ===== Entity (Pay): interface dan abstract dulu =====
