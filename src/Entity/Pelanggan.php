@@ -41,10 +41,10 @@ class Pelanggan extends BaseEntity
         $nama = $this->bersihkanTeks($namaPelanggan);
 
         if ($nama === '') {
-            throw new InvalidArgumentException('Nama pelanggan tidak boleh kosong.');
+            throw new ValidationException('Nama pelanggan tidak boleh kosong.');
         }
         if (mb_strlen($nama) > self::MAKS_NAMA) {
-            throw new InvalidArgumentException(
+            throw new ValidationException(
                 'Nama pelanggan maksimal ' . self::MAKS_NAMA . ' karakter.'
             );
         }
@@ -62,7 +62,7 @@ class Pelanggan extends BaseEntity
         $bersih = (string) preg_replace('/[\s\-]/', '', $noTelepon);
 
         if (preg_match(self::POLA_TELEPON, $bersih) !== 1) {
-            throw new InvalidArgumentException(
+            throw new ValidationException(
                 'No telepon harus 8-15 digit angka (boleh diawali +).'
             );
         }
@@ -80,7 +80,7 @@ class Pelanggan extends BaseEntity
         $bersih = $this->bersihkanTeks($alamat);
 
         if (mb_strlen($bersih) > self::MAKS_ALAMAT) {
-            throw new InvalidArgumentException(
+            throw new ValidationException(
                 'Alamat maksimal ' . self::MAKS_ALAMAT . ' karakter.'
             );
         }
