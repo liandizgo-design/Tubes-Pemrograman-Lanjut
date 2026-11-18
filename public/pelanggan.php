@@ -1,22 +1,17 @@
 <?php
 declare(strict_types=1);
 
+session_start();
+
 require_once __DIR__ . '/../src/bootstrap.php';
+require_once __DIR__ . '/../src/View/helpers.php';
 require_once __DIR__ . '/../src/Repository/PelangganRepositoryInterface.php';
 require_once __DIR__ . '/../src/Repository/PelangganRepository.php';
-
-function h(?string $teks): string
-{
-    return htmlspecialchars((string) $teks, ENT_QUOTES, 'UTF-8');
-}
 
 $judul = 'Pelanggan';
 $errors = [];
 $daftar = [];
 $old = ['nama_pelanggan' => '', 'no_telepon' => '', 'alamat' => ''];
-$sukses = ($_GET['status'] ?? '') === 'tersimpan'
-    ? 'Pelanggan berhasil ditambahkan.'
-    : '';
 
 try {
     $db   = new Database();
@@ -34,7 +29,8 @@ try {
                 $old['alamat']
             ));
 
-            header('Location: pelanggan.php?status=tersimpan');
+            setFlash('ok', 'Pelanggan berhasil ditambahkan.');
+            header('Location: pelanggan.php');
             exit;
         } catch (ValidationException | InvalidArgumentException $e) {
             $errors[] = $e->getMessage();
@@ -46,13 +42,15 @@ try {
     $errors[] = $e->getMessage();
 }
 
+$flash = ambilFlash();
+
 require __DIR__ . '/../src/View/header.php';
 ?>
 
 <h2>Data Pelanggan</h2>
 
-<?php if ($sukses !== ''): ?>
-    <p class="alert alert-ok"><?= h($sukses) ?></p>
+<?php if ($flash !== null): ?>
+    <p class="alert alert-<?= $flash['tipe'] === 'ok' ? 'ok' : 'error' ?>"><?= h($flash['pesan']) ?></p>
 <?php endif; ?>
 
 <?php foreach ($errors as $pesan): ?>
@@ -77,17 +75,26 @@ require __DIR__ . '/../src/View/header.php';
 
 <table class="tabel">
     <thead>
-        <tr><th>Nama</th><th>No. Telepon</th><th>Alamat</th></tr>
+        <tr><th>Nama</th><th>No. Telepon</th><th>Alamat</th><th>Aksi</th></tr>
     </thead>
     <tbody>
     <?php if ($daftar === []): ?>
-        <tr><td colspan="3">Belum ada pelanggan.</td></tr>
+        <tr><td colspan="4">Belum ada pelanggan.</td></tr>
     <?php endif; ?>
     <?php foreach ($daftar as $pelanggan): ?>
         <tr>
             <td><?= h($pelanggan->getNamaPelanggan()) ?></td>
             <td><?= h($pelanggan->getNoTelepon()) ?></td>
             <td><?= h($pelanggan->getAlamat()) ?></td>
+            <td class="aksi">
+                <a href="pelanggan-edit.php?nama=<?= urlencode($pelanggan->getNamaPelanggan()) ?>">Edit</a>
+                <form method="post" action="pelanggan-hapus.php" class="inline"
+                      onsubmit="return confirm('Hapus pelanggan ini?');">
+                    <input type="hidden" name="nama_pelanggan"
+                           value="<?= h($pelanggan->getNamaPelanggan()) ?>">
+                    <button type="submit" class="btn-hapus">Hapus</button>
+                </form>
+            </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
