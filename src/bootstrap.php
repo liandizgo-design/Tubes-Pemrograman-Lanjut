@@ -30,7 +30,7 @@ require_once __DIR__ . '/Entity/Transaksi.php';
 
 // ===== Validation (Pay) =====
 require_once __DIR__ . '/Validation/Input.php';
-// require_once __DIR__ . '/Validation/Validator.php';
+require_once __DIR__ . '/Validation/Validator.php';
 
 // ===== Repository (Niph) =====
 // require_once __DIR__ . '/Repository/ProdukRepositoryInterface.php';
