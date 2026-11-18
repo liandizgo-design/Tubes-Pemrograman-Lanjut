@@ -149,8 +149,7 @@ class QueryBuilder
 
             return $statement->rowCount();
         } catch (PDOException $exception) {
-            error_log('Gagal menjalankan INSERT: ' . $exception->getMessage());
-            throw new DatabaseException('Data belum bisa disimpan. Silakan coba lagi.');
+            throw $this->buatDatabaseException($exception, 'Data belum bisa disimpan. Silakan coba lagi.');
         } finally {
             $this->reset();
         }
@@ -195,8 +194,7 @@ class QueryBuilder
 
             return $statement->rowCount();
         } catch (PDOException $exception) {
-            error_log('Gagal menjalankan UPDATE: ' . $exception->getMessage());
-            throw new DatabaseException('Data belum bisa diubah. Silakan coba lagi.');
+            throw $this->buatDatabaseException($exception, 'Data belum bisa diubah. Silakan coba lagi.');
         } finally {
             $this->reset();
         }
@@ -227,7 +225,7 @@ class QueryBuilder
             return $statement->rowCount();
         } catch (PDOException $exception) {
             error_log('Gagal menjalankan DELETE: ' . $exception->getMessage());
-            throw new DatabaseException('Data belum bisa dihapus. Silakan coba lagi.');
+            throw $this->buatDatabaseException($exception, 'Data belum bisa dihapus. Silakan coba lagi.');
         } finally {
             $this->reset();
         }
@@ -312,6 +310,22 @@ class QueryBuilder
 
         return self::COLUMNS_BY_TABLE[$this->table];
     }
+        private function buatDatabaseException(
+        PDOException $exception,
+        string $pesanUmum
+    ): DatabaseException {
+        error_log('Kesalahan database: ' . $exception->getMessage());
+
+        $kode = (int) ($exception->errorInfo[1] ?? 0);
+
+        return match ($kode) {
+            1451 => new DatabaseException('Data masih dipakai oleh data lain, jadi tidak bisa diubah atau dihapus.'),
+            1452 => new DatabaseException('Data rujukan tidak ditemukan. Periksa kembali pilihan Anda.'),
+            1062 => new DatabaseException('Data tersebut sudah ada.'),
+            default => new DatabaseException($pesanUmum),
+        };
+    }
+
     private function reset(): void
     {
         $this->table = null;
