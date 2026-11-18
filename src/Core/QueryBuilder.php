@@ -241,6 +241,27 @@ class QueryBuilder
             $this->reset();
         }
     }
+            public function getDaftarProdukDenganStok(): array
+    {
+        try {
+            $sql = 'SELECT p.id_produk, p.tanggal_input, p.nama_produk, p.harga,'
+                . ' s.id_stok, s.jumlah_stok, s.tanggal_update'
+                . ' FROM produk AS p'
+                . ' LEFT JOIN stok AS s ON s.id_produk = p.id_produk'
+                . ' ORDER BY p.id_produk ASC';
+
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute();
+
+            return $statement->fetchAll();
+        } catch (PDOException $exception) {
+            error_log('Gagal membaca daftar produk: ' . $exception->getMessage());
+            throw new DatabaseException('Daftar produk belum bisa dimuat. Silakan coba lagi.');
+        } finally {
+            $this->reset();
+        }
+    }
+    
         public function getRiwayatTransaksi(?string $idTransaksi = null): array
     {
         try {
